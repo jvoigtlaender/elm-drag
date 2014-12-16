@@ -2,7 +2,7 @@ elm-drag-and-drop
 =================
 
 A low- and high-level interface to mouse drag and drop actions in [Elm](http://elm-lang.org/).
-For documentation, see also http://package.elm-lang.org/packages/jvoigtlaender/elm-drag-and-drop/1.0.0/DragAndDrop.
+For documentation, see also http://package.elm-lang.org/packages/jvoigtlaender/elm-drag-and-drop/latest/DragAndDrop.
 
 The low-level interface is:
 
@@ -24,7 +24,7 @@ trackMany : Maybe a -> Signal (Maybe a) -> Signal (Maybe (a, Action))
 
 In those `track`-functions, the `Bool`/`Signal Bool` or `Maybe a`/`Signal (Maybe a)` arguments are the initial value and input signal which tell whether the mouse is (currently) hovering over something draggable. See `Example1.elm`, `Example2.elm`, and `Example3.elm`.
 
-The library also exposes an `Automaton` (https://github.com/evancz/automaton):
+The library also exposes an `Automaton` (http://package.elm-lang.org/packages/evancz/automaton/latest):
 
 ```
 type Input a = Mouse MouseEvent | Hover (Maybe a)
