@@ -25,7 +25,8 @@ type MouseEvent = StartAt (Int,Int) | MoveFromTo (Int,Int) (Int,Int) | EndAt (In
 {-| A signal of drag and drop sequence events, fed by `Mouse.isDown`
 and `Mouse.position`. A possible history of this signal could be
 `StartAt (10,10)`, `MoveFromTo (10,10) (12,10)`, `MoveFromTo (12,10) (13,8)`,
-`EndAt (13,8)`, ... -}
+`EndAt (13,8)`, `StartAt (20,15)`, `MoveFromTo (20,15) (22,18)`,
+`EndAt (22,18)`, ... -}
 mouseEvents : Signal MouseEvent
 mouseEvents =
   let assertEqual = always
