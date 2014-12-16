@@ -99,15 +99,15 @@ over which one. An example use (also using `putInBox` from above):
       in Signal.map (\(p1,p2) -> collage 200 200 [move p1 (toForm box1), move p2 (toForm box2)])
                     (foldp moveBy ((0,15), (0,-15)) (trackMany Nothing (Signal.subscribe hover)))
 
-A more dynamic example can be found in file Example3.elm in the source
-repository. -}
+A more dynamic example can be found in file `Example3.elm` in the
+source repository. -}
 trackMany : Maybe a -> Signal (Maybe a) -> Signal (Maybe (a, Action))
 trackMany inside hover = Automaton.run (automaton inside) Nothing (merge (Mouse <~ mouseEvents) (Hover <~ hover))
 
 type State a = Outside | Inside a | Picked a (Int,Int) (Maybe a)
 
 {-| An automaton that can be used in specific situations where
-`track`/`trackMany` are not applicable. See file Example4.elm in the
+`track`/`trackMany` are not applicable. See file `Example4.elm` in the
 source repository. The automaton is also used internally in the
 `track` and `trackMany` functions. -}
 automaton : Maybe a -> Automaton (Input a) (Maybe (a, Action))
