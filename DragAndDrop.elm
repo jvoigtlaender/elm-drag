@@ -106,8 +106,9 @@ trackMany inside hover = Automaton.run (automaton inside) Nothing (merge (Mouse 
 
 type State a = Outside | Inside a | Picked a (Int,Int) (Maybe a)
 
-{-| An automaton that can be used in specific situations where
-`track`/`trackMany` are not applicable. See
+{-| An [Automaton](http://package.elm-lang.org/packages/evancz/automaton/latest)
+that can be used in specific situations where `track`/`trackMany` are
+not applicable. See
 [Example4.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example4.elm).
 The automaton is also used internally in the `track` and `trackMany`
 functions. -}

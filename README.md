@@ -34,7 +34,8 @@ draggable. See
 and
 [Example3.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example3.elm).
 
-The library also exposes an `Automaton` (http://package.elm-lang.org/packages/evancz/automaton/latest):
+The library also exposes an
+[Automaton](http://package.elm-lang.org/packages/evancz/automaton/latest):
 
 ```
 type Input a = Mouse MouseEvent | Hover (Maybe a)
