@@ -53,7 +53,8 @@ use:
 
     hover = Signal.channel False
     
-    box = Graphics.Input.hoverable (Signal.send hover) (putInBox (plainText "drag-and-drop me"))
+    box = Graphics.Input.hoverable (Signal.send hover)
+                                   (putInBox (plainText "drag-and-drop me"))
     
     putInBox e =
       let (sx,sy) = sizeOf e
@@ -78,13 +79,15 @@ type Input a = Mouse MouseEvent | Hover (Maybe a)
 {-| Track several draggable items. The `Maybe a` and `Signal (Maybe
 a)` arguments are the initial value and input signal which tell
 whether the mouse is (currently) hovering over a draggable item, and
-over which one. An example use:
+over which one. An example use (also using `putInBox` from above):
 
     hover = Signal.channel Nothing
     
-    box1 = Graphics.Input.hoverable (Signal.send hover << \h -> if h then Just 1 else Nothing) (putInBox (plainText "drag-and-drop me"))
+    box1 = Graphics.Input.hoverable (Signal.send hover << \h -> if h then Just 1 else Nothing)
+                                    (putInBox (plainText "drag-and-drop me"))
     
-    box2 = Graphics.Input.hoverable (Signal.send hover << \h -> if h then Just 2 else Nothing) (putInBox (plainText "and me too"))
+    box2 = Graphics.Input.hoverable (Signal.send hover << \h -> if h then Just 2 else Nothing)
+                                    (putInBox (plainText "and me too"))
     
     main =
       let moveBy m =
@@ -101,7 +104,7 @@ trackMany inside hover = Automaton.run (automaton inside) Nothing (merge (Mouse 
 type State a = Outside | Inside a | Picked a (Int,Int) (Maybe a)
 
 {-| An automaton that can be used in specific situations where
-`track`/`trackMany` are not applicable. See Example4.elm in the
+`track`/`trackMany` are not applicable. See Example4.elm in the source
 repository. The automaton is also used internally in the `track` and
 `trackMany` functions.-}
 automaton : Maybe a -> Automaton (Input a) (Maybe (a, Action))

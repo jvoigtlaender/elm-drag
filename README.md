@@ -2,6 +2,7 @@ elm-drag-and-drop
 =================
 
 A low- and high-level interface to mouse drag and drop actions in [Elm](http://elm-lang.org/).
+For documentation, see also http://package.elm-lang.org/packages/jvoigtlaender/elm-drag-and-drop/1.0.0/DragAndDrop.
 
 The low-level interface is:
 
