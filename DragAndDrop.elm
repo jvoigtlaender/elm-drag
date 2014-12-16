@@ -50,7 +50,8 @@ type Action = Lift | MoveBy (Int,Int) | Release
 {-| Track a single draggable item. The `Bool` and `Signal Bool`
 arguments are the initial value and input signal which tell whether
 the mouse is (currently) hovering over the draggable item. An example
-use:
+use
+([Example1.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example1.elm)):
 
     hover = Signal.channel False
     
@@ -80,7 +81,9 @@ type Input a = Mouse MouseEvent | Hover (Maybe a)
 {-| Track several draggable items. The `Maybe a` and `Signal (Maybe
 a)` arguments are the initial value and input signal which tell
 whether the mouse is (currently) hovering over a draggable item, and
-over which one. An example use (also using `putInBox` from above):
+over which one. An example use
+([Example2.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example2.elm),
+also using `putInBox` from above):
 
     hover = Signal.channel Nothing
     
