@@ -62,13 +62,15 @@ use
       let (sx,sy) = sizeOf e
       in layers [e, collage sx sy [outlined (solid black) (rect (toFloat sx) (toFloat sy))]]
     
+    moveBy (dx,dy) (x,y) = (x + toFloat dx, y - toFloat dy)
+    
     main =
-      let moveBy m =
+      let update m =
             case m of
-              Just (MoveBy (dx,dy)) -> \(x,y) -> (x + toFloat dx, y - toFloat dy)
+              Just (MoveBy (dx,dy)) -> moveBy (dx,dy)
               _                     -> identity
-      in Signal.map (\p -> collage 200 200 [move p (toForm box)])
-                    (foldp moveBy (0,0) (track False (Signal.subscribe hover)))
+      in Signal.map (\p -> collage 200 200 [Graphics.Collage.move p (toForm box)])
+                    (foldp update (0,0) (track False (Signal.subscribe hover)))
 -}
 track : Bool -> Signal Bool -> Signal (Maybe Action)
 track inside hover =
@@ -83,7 +85,7 @@ a)` arguments are the initial value and input signal which tell
 whether the mouse is (currently) hovering over a draggable item, and
 over which one. An example use
 ([Example2.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example2.elm),
-also using `putInBox` from above):
+also using `putInBox` and `moveBy` from above):
 
     hover = Signal.channel Nothing
     
@@ -94,13 +96,14 @@ also using `putInBox` from above):
                                     (putInBox (plainText "and me too"))
     
     main =
-      let moveBy m =
+      let update m =
             case m of
-              Just (1, MoveBy (dx,dy)) -> \((x1,y1), p2) -> ((x1 + toFloat dx, y1 - toFloat dy), p2)
-              Just (2, MoveBy (dx,dy)) -> \(p1, (x2,y2)) -> (p1, (x2 + toFloat dx, y2 - toFloat dy))
+              Just (1, MoveBy (dx,dy)) -> \(p1,p2) -> (moveBy (dx,dy) p1, p2)
+              Just (2, MoveBy (dx,dy)) -> \(p1,p2) -> (p1, moveBy (dx,dy) p2)
               _                        -> identity
-      in Signal.map (\(p1,p2) -> collage 200 200 [move p1 (toForm box1), move p2 (toForm box2)])
-                    (foldp moveBy ((0,15), (0,-15)) (trackMany Nothing (Signal.subscribe hover)))
+      in Signal.map (\(p1,p2) -> collage 200 200 [Graphics.Collage.move p1 (toForm box1),
+                                                  Graphics.Collage.move p2 (toForm box2)])
+                    (foldp update ((0,15), (0,-15)) (trackMany Nothing (Signal.subscribe hover)))
 
 A more dynamic example can be found in
 [Example3.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example3.elm). -}

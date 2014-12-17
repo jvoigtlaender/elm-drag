@@ -2,26 +2,32 @@ import DragAndDrop (..)
 import Graphics.Input
 import Signal (..)
 import Signal
-import Text (..)
+import Text (plainText)
 import Graphics.Element (..)
 import Graphics.Collage (..)
+import Graphics.Collage
 import Color (..)
 
 hover = Signal.channel Nothing
 
-box1 = Graphics.Input.hoverable (Signal.send hover << \h -> if h then Just 1 else Nothing) (putInBox (plainText "drag-and-drop me"))
+box1 = Graphics.Input.hoverable (Signal.send hover << \h -> if h then Just 1 else Nothing)
+                                (putInBox (plainText "drag-and-drop me"))
 
-box2 = Graphics.Input.hoverable (Signal.send hover << \h -> if h then Just 2 else Nothing) (putInBox (plainText "and me too"))
+box2 = Graphics.Input.hoverable (Signal.send hover << \h -> if h then Just 2 else Nothing)
+                                (putInBox (plainText "and me too"))
 
 putInBox e =
   let (sx,sy) = sizeOf e
   in layers [e, collage sx sy [outlined (solid black) (rect (toFloat sx) (toFloat sy))]]
 
+moveBy (dx,dy) (x,y) = (x + toFloat dx, y - toFloat dy)
+
 main =
-  let moveBy m =
+  let update m =
         case m of
-          Just (1, MoveBy (dx,dy)) -> \((x1,y1), p2) -> ((x1 + toFloat dx, y1 - toFloat dy), p2)
-          Just (2, MoveBy (dx,dy)) -> \(p1, (x2,y2)) -> (p1, (x2 + toFloat dx, y2 - toFloat dy))
+          Just (1, MoveBy (dx,dy)) -> \(p1,p2) -> (moveBy (dx,dy) p1, p2)
+          Just (2, MoveBy (dx,dy)) -> \(p1,p2) -> (p1, moveBy (dx,dy) p2)
           _                        -> identity
-  in Signal.map (\(p1,p2) -> collage 200 200 [move p1 (toForm box1), move p2 (toForm box2)])
-                (foldp moveBy ((0,15), (0,-15)) (trackMany Nothing (Signal.subscribe hover)))
+  in Signal.map (\(p1,p2) -> collage 200 200 [Graphics.Collage.move p1 (toForm box1),
+                                              Graphics.Collage.move p2 (toForm box2)])
+                (foldp update ((0,15), (0,-15)) (trackMany Nothing (Signal.subscribe hover)))
