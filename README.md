@@ -6,9 +6,12 @@ A low- and high-level interface to mouse drag and drop actions in
 published version, see also
 http://package.elm-lang.org/packages/jvoigtlaender/elm-drag-and-drop/latest/DragAndDrop.
 
+For reporting any issues, see
+https://github.com/jvoigtlaender/elm-drag-and-drop/issues.
+
 The low-level interface is:
 
-```
+```elm
 type MouseEvent = StartAt (Int,Int) | MoveFromTo (Int,Int) (Int,Int) | EndAt (Int,Int)
 
 mouseEvents : Signal MouseEvent
@@ -17,7 +20,7 @@ mouseEvents : Signal MouseEvent
 The recommended, high-level interface consists of the
 `track`-functions:
 
-```
+```elm
 type Action = Lift | MoveBy (Int,Int) | Release
 
 track : Bool -> Signal Bool -> Signal (Maybe Action)
@@ -37,7 +40,7 @@ and
 The library also exposes an
 [Automaton](http://package.elm-lang.org/packages/evancz/automaton/latest):
 
-```
+```elm
 type Input a = Mouse MouseEvent | Hover (Maybe a)
 
 automaton : Maybe a -> Automaton (Input a) (Maybe (a, Action))
