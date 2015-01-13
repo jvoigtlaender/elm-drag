@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0",
+    "version": "1.0.1",
     "summary": "a low- and high-level interface to mouse drag and drop actions",
     "repository": "https://github.com/jvoigtlaender/elm-drag-and-drop.git",
     "license": "BSD3",
