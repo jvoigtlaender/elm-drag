@@ -1,25 +1,22 @@
--- this example runs at http://share-elm.com/sprout/54193b54e4b0d19703e9773b
+-- this example runs at http://share-elm.com/sprout/54193b54e4b0d19703e9773b/0.12.3/view
 
 import Dict
-import DragAndDrop (..)
+import DragAndDrop exposing (..)
 import Graphics.Input
-import Signal (..)
-import Signal
-import Text (plainText)
-import Graphics.Element (..)
-import Graphics.Collage (..)
-import Graphics.Collage
-import Color (..)
-import List
+import Signal exposing (foldp, merge, (<~))
+import Text exposing (fromString)
+import Graphics.Element exposing (color, down, flow, layers, leftAligned, sizeOf)
+import Graphics.Collage exposing (collage, outlined, rect, solid, toForm)
+import Color exposing (black, orange, yellow)
 
-add = Signal.channel ()
+add = Signal.mailbox ()
 
-button = Graphics.Input.button (Signal.send add ()) "add a draggable box"
+button = Graphics.Input.button (Signal.message add.address ()) "add a draggable box"
 
-hover = Signal.channel Nothing
+hover = Signal.mailbox Nothing
 
-makeBox i = Graphics.Input.hoverable (Signal.send hover << \h -> if h then Just i else Nothing)
-                                     (putInBox (plainText (toString i)))
+makeBox i = Graphics.Input.hoverable (Signal.message hover.address << \h -> if h then Just i else Nothing)
+                                     (putInBox (leftAligned (fromString (toString i))))
 
 putInBox e =
   let (sx,sy) = sizeOf e
@@ -40,4 +37,4 @@ main =
   in Signal.map (\dict -> flow down [ button
                                     , collage 200 200 (List.map (\(p,b) -> Graphics.Collage.move p (toForm b)) (Dict.values dict))
                                     ])
-                (foldp update Dict.empty (merge (Add <~ foldp (\_ t -> t + 1) 0 (Signal.subscribe add)) (Track <~ trackMany Nothing (Signal.subscribe hover))))
+                (foldp update Dict.empty (merge (Add <~ foldp (\_ t -> t + 1) 0 add.signal) (Track <~ trackMany Nothing hover.signal)))

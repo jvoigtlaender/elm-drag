@@ -1,20 +1,18 @@
-import DragAndDrop (..)
+import DragAndDrop exposing (..)
 import Graphics.Input
-import Signal (..)
-import Signal
-import Text (plainText)
-import Graphics.Element (..)
-import Graphics.Collage (..)
-import Graphics.Collage
-import Color (..)
+import Signal exposing (foldp)
+import Text exposing (fromString)
+import Graphics.Element exposing (layers, leftAligned, sizeOf)
+import Graphics.Collage exposing (collage, outlined, rect, solid, toForm)
+import Color exposing (black)
 
-hover = Signal.channel Nothing
+hover = Signal.mailbox Nothing
 
-box1 = Graphics.Input.hoverable (Signal.send hover << \h -> if h then Just 1 else Nothing)
-                                (putInBox (plainText "drag-and-drop me"))
+box1 = Graphics.Input.hoverable (Signal.message hover.address << \h -> if h then Just 1 else Nothing)
+                                (putInBox (leftAligned (fromString "drag-and-drop me")))
 
-box2 = Graphics.Input.hoverable (Signal.send hover << \h -> if h then Just 2 else Nothing)
-                                (putInBox (plainText "and me too"))
+box2 = Graphics.Input.hoverable (Signal.message hover.address << \h -> if h then Just 2 else Nothing)
+                                (putInBox (leftAligned (fromString "and me too")))
 
 putInBox e =
   let (sx,sy) = sizeOf e
@@ -30,4 +28,4 @@ main =
           _                        -> identity
   in Signal.map (\(p1,p2) -> collage 200 200 [Graphics.Collage.move p1 (toForm box1),
                                               Graphics.Collage.move p2 (toForm box2)])
-                (foldp update ((0,15), (0,-15)) (trackMany Nothing (Signal.subscribe hover)))
+                (foldp update ((0,15), (0,-15)) (trackMany Nothing hover.signal))

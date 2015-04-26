@@ -1,15 +1,10 @@
 import Dict
-import Automaton
-import Automaton ( (>>>) )
-import DragAndDrop
-import DragAndDrop ( Input(..), Action(..) )
+import Automaton exposing ( (>>>) )
+import DragAndDrop exposing ( Input(..), Action(..) )
 import Mouse
-import Signal (..)
-import Signal
-import Graphics.Collage (..)
-import Graphics.Collage
-import Color (..)
-import List
+import Signal exposing (foldp, merge, (<~))
+import Graphics.Collage exposing (circle, collage, outlined, solid)
+import Color exposing (black)
 
 
 moveBy (dx,dy) (x,y) = (x + toFloat dx, y - toFloat dy)

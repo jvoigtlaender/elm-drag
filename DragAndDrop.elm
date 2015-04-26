@@ -12,12 +12,9 @@ module DragAndDrop ( MouseEvent(..), mouseEvents, Action(..), track, trackMany, 
 -}
 
 import Mouse
-import Maybe (..)
-import Maybe
-import Automaton
-import Automaton (Automaton)
-import Signal (..)
-import Signal
+import Maybe exposing (withDefault)
+import Automaton exposing (Automaton)
+import Signal exposing (foldp, merge, (<~))
 
 {-| A type for individual events in a drag and drop sequence. -}
 type MouseEvent = StartAt (Int,Int) | MoveFromTo (Int,Int) (Int,Int) | EndAt (Int,Int)
@@ -41,7 +38,7 @@ mouseEvents =
       isJust b = case b of
         Just _  -> True
         Nothing -> False
-  in withDefault (EndAt (0,0)) <~ (keepIf isJust Nothing <| foldp f Nothing <| Signal.map2 (,) Mouse.isDown Mouse.position)
+  in withDefault (EndAt (0,0)) <~ (Signal.filter isJust Nothing <| foldp f Nothing <| Signal.map2 (,) Mouse.isDown Mouse.position)
 -- relies on Mouse.isDown and Mouse.position never firing at same time
 
 {-| A type for actions performed on draggable items. -}
@@ -53,10 +50,10 @@ the mouse is (currently) hovering over the draggable item. An example
 use
 ([Example1.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example1.elm)):
 
-    hover = Signal.channel False
+    hover = Signal.mailbox False
     
-    box = Graphics.Input.hoverable (Signal.send hover)
-                                   (putInBox (plainText "drag-and-drop me"))
+    box = Graphics.Input.hoverable (Signal.message hover.address)
+                                   (putInBox (leftAligned (fromString "drag-and-drop me")))
     
     putInBox e =
       let (sx,sy) = sizeOf e
@@ -70,7 +67,7 @@ use
               Just (MoveBy (dx,dy)) -> moveBy (dx,dy)
               _                     -> identity
       in Signal.map (\p -> collage 200 200 [Graphics.Collage.move p (toForm box)])
-                    (foldp update (0,0) (track False (Signal.subscribe hover)))
+                    (foldp update (0,0) (track False hover.signal))
 -}
 track : Bool -> Signal Bool -> Signal (Maybe Action)
 track inside hover =
@@ -87,13 +84,13 @@ over which one. An example use
 ([Example2.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example2.elm),
 also using `putInBox` and `moveBy` from above):
 
-    hover = Signal.channel Nothing
+    hover = Signal.mailbox Nothing
     
-    box1 = Graphics.Input.hoverable (Signal.send hover << \h -> if h then Just 1 else Nothing)
-                                    (putInBox (plainText "drag-and-drop me"))
+    box1 = Graphics.Input.hoverable (Signal.message hover.address << \h -> if h then Just 1 else Nothing)
+                                    (putInBox (leftAligned (fromString "drag-and-drop me")))
     
-    box2 = Graphics.Input.hoverable (Signal.send hover << \h -> if h then Just 2 else Nothing)
-                                    (putInBox (plainText "and me too"))
+    box2 = Graphics.Input.hoverable (Signal.message hover.address << \h -> if h then Just 2 else Nothing)
+                                    (putInBox (leftAligned (fromString "and me too")))
     
     main =
       let update m =
@@ -103,7 +100,7 @@ also using `putInBox` and `moveBy` from above):
               _                        -> identity
       in Signal.map (\(p1,p2) -> collage 200 200 [Graphics.Collage.move p1 (toForm box1),
                                                   Graphics.Collage.move p2 (toForm box2)])
-                    (foldp update ((0,15), (0,-15)) (trackMany Nothing (Signal.subscribe hover)))
+                    (foldp update ((0,15), (0,-15)) (trackMany Nothing hover.signal))
 
 A more dynamic example can be found in
 [Example3.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example3.elm). -}
