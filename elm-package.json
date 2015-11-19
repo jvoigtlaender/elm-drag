@@ -1,5 +1,5 @@
 {
-    "version": "1.0.2",
+    "version": "1.0.3",
     "summary": "a low- and high-level interface to mouse drag and drop actions",
     "repository": "https://github.com/jvoigtlaender/elm-drag-and-drop.git",
     "license": "BSD3",
@@ -10,8 +10,8 @@
         "DragAndDrop"
     ],
     "dependencies": {
-        "elm-lang/core": "2.0.0 <= v < 3.0.0",
+        "elm-lang/core": "2.0.0 <= v < 4.0.0",
         "evancz/automaton": "1.0.0 <= v < 2.0.0"
     },
-    "elm-version": "0.15.0 <= v < 0.16.0"
+    "elm-version": "0.15.0 <= v < 0.17.0"
 }

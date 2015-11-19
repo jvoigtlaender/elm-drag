@@ -14,7 +14,7 @@ module DragAndDrop ( MouseEvent(..), mouseEvents, Action(..), track, trackMany, 
 import Mouse
 import Maybe exposing (withDefault)
 import Automaton exposing (Automaton)
-import Signal exposing (foldp, merge, (<~))
+import Signal exposing (foldp, merge)
 
 {-| A type for individual events in a drag and drop sequence. -}
 type MouseEvent = StartAt (Int,Int) | MoveFromTo (Int,Int) (Int,Int) | EndAt (Int,Int)
@@ -38,7 +38,7 @@ mouseEvents =
       isJust b = case b of
         Just _  -> True
         Nothing -> False
-  in withDefault (EndAt (0,0)) <~ (Signal.filter isJust Nothing <| foldp f Nothing <| Signal.map2 (,) Mouse.isDown Mouse.position)
+  in Signal.map (withDefault (EndAt (0,0))) (Signal.filter isJust Nothing <| foldp f Nothing <| Signal.map2 (,) Mouse.isDown Mouse.position)
 -- relies on Mouse.isDown and Mouse.position never firing at same time
 
 {-| A type for actions performed on draggable items. -}
@@ -72,7 +72,7 @@ use
 track : Bool -> Signal Bool -> Signal (Maybe Action)
 track inside hover =
   let btm b = if b then Just () else Nothing
-  in Signal.map (Maybe.map snd) (trackMany (btm inside) (btm <~ hover))
+  in Signal.map (Maybe.map snd) (trackMany (btm inside) (Signal.map btm hover))
 
 {-| Input type for `automaton`. -}
 type Input a = Mouse MouseEvent | Hover (Maybe a)
@@ -105,7 +105,7 @@ also using `putInBox` and `moveBy` from above):
 A more dynamic example can be found in
 [Example3.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example3.elm). -}
 trackMany : Maybe a -> Signal (Maybe a) -> Signal (Maybe (a, Action))
-trackMany inside hover = Automaton.run (automaton inside) Nothing (merge (Mouse <~ mouseEvents) (Hover <~ hover))
+trackMany inside hover = Automaton.run (automaton inside) Nothing (merge (Signal.map Mouse mouseEvents) (Signal.map Hover hover))
 
 type State a = Outside | Inside a | Picked a (Int,Int) (Maybe a)
 

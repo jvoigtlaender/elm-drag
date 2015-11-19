@@ -3,7 +3,7 @@
 import Dict
 import DragAndDrop exposing (..)
 import Graphics.Input
-import Signal exposing (foldp, merge, (<~))
+import Signal exposing (foldp, merge)
 import Text exposing (fromString)
 import Graphics.Element exposing (color, down, flow, layers, leftAligned, sizeOf)
 import Graphics.Collage exposing (collage, outlined, rect, solid, toForm)
@@ -30,11 +30,11 @@ main =
   let update event =
         case event of
           Add i                            -> Dict.insert i ((0,0), color yellow (makeBox i))
-          Track (Just (i, Lift))           -> Dict.update i (\(Just (p,b)) -> Just (p, color orange b))
-          Track (Just (i, MoveBy (dx,dy))) -> Dict.update i (\(Just (p,b)) -> Just (moveBy (dx,dy) p, b))
-          Track (Just (i, Release))        -> Dict.update i (\(Just (p,b)) -> Just (p, color yellow b))
+          Track (Just (i, Lift))           -> Dict.update i (Maybe.map (\(p,b) -> (p, color orange b)))
+          Track (Just (i, MoveBy (dx,dy))) -> Dict.update i (Maybe.map (\(p,b) -> (moveBy (dx,dy) p, b)))
+          Track (Just (i, Release))        -> Dict.update i (Maybe.map (\(p,b) -> (p, color yellow b)))
           _                                -> identity
   in Signal.map (\dict -> flow down [ button
                                     , collage 200 200 (List.map (\(p,b) -> Graphics.Collage.move p (toForm b)) (Dict.values dict))
                                     ])
-                (foldp update Dict.empty (merge (Add <~ foldp (\_ t -> t + 1) 0 add.signal) (Track <~ trackMany Nothing hover.signal)))
+                (foldp update Dict.empty (merge (Signal.map Add (foldp (\_ t -> t + 1) 0 add.signal)) (Signal.map Track (trackMany Nothing hover.signal))))
