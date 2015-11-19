@@ -74,7 +74,7 @@ track inside hover =
   let btm b = if b then Just () else Nothing
   in Signal.map (Maybe.map snd) (trackMany (btm inside) (Signal.map btm hover))
 
-{-| Input type for `automaton`. -}
+{-| Input type for [`automaton`](#automaton). -}
 type Input a = Mouse MouseEvent | Hover (Maybe a)
 
 {-| Track several draggable items. The `Maybe a` and `Signal (Maybe
@@ -110,10 +110,10 @@ trackMany inside hover = Automaton.run (automaton inside) Nothing (merge (Signal
 type State a = Outside | Inside a | Picked a (Int,Int) (Maybe a)
 
 {-| An [Automaton](http://package.elm-lang.org/packages/evancz/automaton/latest)
-that can be used in specific situations where `track`/`trackMany` are
+that can be used in specific situations where [`track`](#track)/[`trackMany`](#trackMany) are
 not applicable. See
 [Example4.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example4.elm).
-The automaton is also used internally in the `track` and `trackMany`
+The automaton is also used internally in the [`track`](#track) and [`trackMany`](#trackMany)
 functions. -}
 automaton : Maybe a -> Automaton (Input a) (Maybe (a, Action))
 automaton inside = Automaton.hiddenState (withDefault Outside (Maybe.map Inside inside)) automatonStep
