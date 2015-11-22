@@ -1,6 +1,6 @@
 {
     "version": "1.0.3",
-    "summary": "a low- and high-level interface to mouse drag and drop actions",
+    "summary": "A low- and high-level interface to mouse drag and drop actions",
     "repository": "https://github.com/jvoigtlaender/elm-drag-and-drop.git",
     "license": "BSD3",
     "source-directories": [
