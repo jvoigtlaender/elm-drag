@@ -48,8 +48,8 @@ type Action = Lift | MoveBy (Int,Int) | Release
 arguments are the initial value and input signal which tell whether
 the mouse is (currently) hovering over the draggable item. An example
 use
-([Example1.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example1.elm)
-- [demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example1.html)):
+([Example1.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example1.elm) -
+[demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example1.html)):
 
     hover = Signal.mailbox False
     
@@ -82,8 +82,8 @@ type Input a = Mouse MouseEvent | Hover (Maybe a)
 a)` arguments are the initial value and input signal which tell
 whether the mouse is (currently) hovering over a draggable item, and
 over which one. An example use
-([Example2.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example2.elm)
-- [demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example2.html),
+([Example2.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example2.elm) -
+[demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example2.html),
 also using `putInBox` and `moveBy` from above):
 
     hover = Signal.mailbox Nothing
