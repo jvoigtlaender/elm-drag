@@ -42,9 +42,11 @@ draggable. See
 ([demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example1.html)),
 [Example2.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example2.elm)
 ([demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example2.html)),
-and
 [Example3.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example3.elm)
-([demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example3.html)).
+([demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example3.html)),
+and
+[Example3b.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example3b.elm)
+([demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example3b.html)).
 
 The library also exposes an
 [Automaton](http://package.elm-lang.org/packages/evancz/automaton/latest):

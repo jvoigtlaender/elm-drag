@@ -195,7 +195,10 @@ also using `putInBox` and `moveBy` from above):
 
 A more dynamic example can be found in
 [Example3.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example3.elm)
-([demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example3.html)).
+([demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example3.html)), or using
+[`start-app`](http://package.elm-lang.org/packages/evancz/start-app/latest), in
+[Example3b.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example3b.elm)
+([demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example3b.html)).
 -}
 trackMany : Maybe a -> Signal (Maybe a) -> Signal (Maybe ( a, Action ))
 trackMany inside hover =
