@@ -12,7 +12,10 @@ https://github.com/jvoigtlaender/elm-drag-and-drop/issues.
 The low-level interface is:
 
 ```elm
-type MouseEvent = StartAt (Int,Int) | MoveFromTo (Int,Int) (Int,Int) | EndAt (Int,Int)
+type MouseEvent
+    = StartAt ( Int, Int )
+    | MoveFromTo ( Int, Int ) ( Int, Int )
+    | EndAt ( Int, Int )
 
 mouseEvents : Signal MouseEvent
 ```
@@ -21,11 +24,14 @@ The recommended, high-level interface consists of the
 `track`-functions:
 
 ```elm
-type Action = Lift | MoveBy (Int,Int) | Release
+type Action
+    = Lift
+    | MoveBy ( Int, Int )
+    | Release
 
 track : Bool -> Signal Bool -> Signal (Maybe Action)
 
-trackMany : Maybe a -> Signal (Maybe a) -> Signal (Maybe (a, Action))
+trackMany : Maybe a -> Signal (Maybe a) -> Signal (Maybe ( a, Action ))
 ```
 
 In those `track`-functions, the `Bool`/`Signal Bool` or `Maybe
@@ -44,9 +50,11 @@ The library also exposes an
 [Automaton](http://package.elm-lang.org/packages/evancz/automaton/latest):
 
 ```elm
-type Input a = Mouse MouseEvent | Hover (Maybe a)
+type Input a
+    = Mouse MouseEvent
+    | Hover (Maybe a)
 
-automaton : Maybe a -> Automaton (Input a) (Maybe (a, Action))
+automaton : Maybe a -> Automaton (Input a) (Maybe ( a, Action ))
 ```
 
 This can be used in specific situations where the `track`-functions
