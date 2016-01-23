@@ -1,6 +1,6 @@
 module Main (main) where
 
-import DragAndDrop exposing (..)
+import Drag exposing (..)
 import Graphics.Input
 import Signal exposing (foldp)
 import Text exposing (fromString)
@@ -16,7 +16,7 @@ hover =
 box =
     Graphics.Input.hoverable
         (Signal.message hover.address)
-        (putInBox (leftAligned (fromString "drag-and-drop me")))
+        (putInBox (leftAligned (fromString "drag me around")))
 
 
 putInBox e =

@@ -1,6 +1,6 @@
-module DragAndDrop (MouseEvent(..), mouseEvents, Action(..), track, trackMany, Input(..), automaton) where
+module Drag (MouseEvent(..), mouseEvents, Action(..), track, trackMany, Input(..), automaton) where
 
-{-| A low- and high-level interface to mouse drag and drop actions.
+{-| A low- and high-level interface to mouse drag actions.
 
 # The high-level interface
 @docs Action, track, trackMany
@@ -18,7 +18,7 @@ import Automaton exposing (Automaton)
 import Signal exposing (foldp, merge)
 
 
-{-| A type for individual events in a drag and drop sequence.
+{-| A type for individual events in a drag sequence.
 -}
 type MouseEvent
     = StartAt ( Int, Int )
@@ -26,7 +26,7 @@ type MouseEvent
     | EndAt ( Int, Int )
 
 
-{-| A signal of drag and drop sequence events, fed by `Mouse.isDown`
+{-| A signal of drag sequence events, fed by `Mouse.isDown`
 and `Mouse.position`. A possible history of this signal could be
 `StartAt (10,10)`, `MoveFromTo (10,10) (12,10)`, `MoveFromTo (12,10) (13,8)`,
 `EndAt (13,8)`, `StartAt (20,15)`, `MoveFromTo (20,15) (22,18)`,
@@ -86,8 +86,8 @@ type Action
 arguments are the initial value and input signal which tell whether
 the mouse is (currently) hovering over the draggable item. An example
 use
-([Example1.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example1.elm) -
-[demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example1.html)):
+([Example1.elm](https://github.com/jvoigtlaender/elm-drag/blob/master/Example1.elm) -
+[demo](https://jvoigtlaender.github.io/elm-drag/Example1.html)):
 
     hover =
         Signal.mailbox False
@@ -95,7 +95,7 @@ use
     box =
         Graphics.Input.hoverable
             (Signal.message hover.address)
-            (putInBox (leftAligned (fromString "drag-and-drop me")))
+            (putInBox (leftAligned (fromString "drag me around")))
 
     putInBox e =
         let
@@ -142,8 +142,8 @@ type Input a
 a)` arguments are the initial value and input signal which tell
 whether the mouse is (currently) hovering over a draggable item, and
 over which one. An example use
-([Example2.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example2.elm) -
-[demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example2.html),
+([Example2.elm](https://github.com/jvoigtlaender/elm-drag/blob/master/Example2.elm) -
+[demo](https://jvoigtlaender.github.io/elm-drag/Example2.html),
 also using `putInBox` and `moveBy` from above):
 
     hover =
@@ -158,7 +158,7 @@ also using `putInBox` and `moveBy` from above):
                     else
                         Nothing
             )
-            (putInBox (leftAligned (fromString "drag-and-drop me")))
+            (putInBox (leftAligned (fromString "drag me around")))
 
     box2 =
         Graphics.Input.hoverable
@@ -194,11 +194,11 @@ also using `putInBox` and `moveBy` from above):
                 (foldp update ( ( 0, 15 ), ( 0, -15 ) ) (trackMany Nothing hover.signal))
 
 A more dynamic example can be found in
-[Example3.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example3.elm)
-([demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example3.html)), or using
+[Example3.elm](https://github.com/jvoigtlaender/elm-drag/blob/master/Example3.elm)
+([demo](https://jvoigtlaender.github.io/elm-drag/Example3.html)), or using
 [`start-app`](http://package.elm-lang.org/packages/evancz/start-app/latest), in
-[Example3b.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example3b.elm)
-([demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example3b.html)).
+[Example3b.elm](https://github.com/jvoigtlaender/elm-drag/blob/master/Example3b.elm)
+([demo](https://jvoigtlaender.github.io/elm-drag/Example3b.html)).
 -}
 trackMany : Maybe a -> Signal (Maybe a) -> Signal (Maybe ( a, Action ))
 trackMany inside hover =
@@ -214,8 +214,8 @@ type State a
 {-| An [Automaton](http://package.elm-lang.org/packages/evancz/automaton/latest)
 that can be used in specific situations where [`track`](#track)/[`trackMany`](#trackMany) are
 not applicable. See
-[Example4.elm](https://github.com/jvoigtlaender/elm-drag-and-drop/blob/master/Example4.elm)
-([demo](https://jvoigtlaender.github.io/elm-drag-and-drop/Example4.html)).
+[Example4.elm](https://github.com/jvoigtlaender/elm-drag/blob/master/Example4.elm)
+([demo](https://jvoigtlaender.github.io/elm-drag/Example4.html)).
 The automaton is also used internally in the [`track`](#track) and [`trackMany`](#trackMany)
 functions.
 -}

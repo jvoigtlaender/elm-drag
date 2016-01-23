@@ -2,7 +2,7 @@ module Main (main) where
 
 import Dict
 import Automaton exposing ((>>>))
-import DragAndDrop exposing (Input(..), Action(..))
+import Drag exposing (Input(..), Action(..))
 import Mouse
 import Signal exposing (foldp, merge)
 import Graphics.Collage exposing (circle, collage, outlined, solid)
@@ -35,7 +35,7 @@ main =
 
         right p dict = Hover (p `within` Dict.toList dict)
 
-        theAutomaton = Automaton.pure (uncurry (<|)) >>> DragAndDrop.automaton Nothing
+        theAutomaton = Automaton.pure (uncurry (<|)) >>> Drag.automaton Nothing
 
         update event ( automaton, dict ) =
             case Automaton.step ( event, dict ) automaton of
@@ -52,6 +52,6 @@ main =
                 (foldp
                     update
                     ( theAutomaton, Dict.fromList [ ( 1, ( 0, -35 ) ), ( 2, ( 0, 0 ) ), ( 3, ( 0, 35 ) ) ] )
-                    (merge (Signal.map left DragAndDrop.mouseEvents) (Signal.map right Mouse.position))
+                    (merge (Signal.map left Drag.mouseEvents) (Signal.map right Mouse.position))
                 )
             )

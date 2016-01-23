@@ -1,6 +1,6 @@
 module Main (main) where
 
-import DragAndDrop exposing (..)
+import Drag exposing (..)
 import Graphics.Input
 import Signal exposing (foldp)
 import Text exposing (fromString)
@@ -22,7 +22,7 @@ box1 =
                 else
                     Nothing
         )
-        (putInBox (leftAligned (fromString "drag-and-drop me")))
+        (putInBox (leftAligned (fromString "drag me around")))
 
 
 box2 =

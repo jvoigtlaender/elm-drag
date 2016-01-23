@@ -1,7 +1,7 @@
 module Main (main) where
 
 import Dict
-import DragAndDrop exposing (..)
+import Drag exposing (..)
 import Graphics.Input
 import Signal exposing (foldp, merge)
 import Text exposing (fromString)

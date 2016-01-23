@@ -1,7 +1,7 @@
 module Main (main) where
 
 import Dict
-import DragAndDrop exposing (..)
+import Drag exposing (..)
 import Graphics.Input
 import Text exposing (fromString)
 import Graphics.Element exposing (color, layers, leftAligned, sizeOf)
@@ -50,7 +50,7 @@ model =
 
 type Action
     = Add
-    | Track (Maybe ( Int, DragAndDrop.Action ))
+    | Track (Maybe ( Int, Drag.Action ))
 
 
 update action model =
