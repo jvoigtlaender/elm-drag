@@ -56,21 +56,10 @@ mouseEvents =
 
                 _ ->
                     Nothing
-
-        isJust b =
-            case b of
-                Just _ ->
-                    True
-
-                Nothing ->
-                    False
     in
-        Signal.map
-            (withDefault (EndAt ( 0, 0 )))
-            (Signal.filter isJust Nothing
-                <| foldp f Nothing
-                <| Signal.map2 (,) Mouse.isDown Mouse.position
-            )
+        Signal.filterMap identity (EndAt ( 0, 0 ))
+            <| foldp f Nothing
+            <| Signal.map2 (,) Mouse.isDown Mouse.position
 -- relies on Mouse.isDown and Mouse.position never firing at same time
 
 
