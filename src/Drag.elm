@@ -233,7 +233,8 @@ automatonStep event old =
         ( _, Hover _ ) ->
             ( Nothing, Outside )
 
-        ( Picked i _ mj, Mouse (EndAt _) ) ->
+        -- using that the case ( Picked _ _ _, Mouse (StartAt _) ) cannot occur
+        ( Picked i _ mj, _ ) ->
             ( Just ( i, Release ), Inside (withDefault i mj) )
 
         ( Inside i, Mouse (StartAt from) ) ->
@@ -241,5 +242,3 @@ automatonStep event old =
 
         _ ->
             ( Nothing, old )
-
-        -- the case ( Picked _ _ _, Mouse (StartAt _) ) -> ... cannot actually occur
