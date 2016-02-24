@@ -230,7 +230,7 @@ automatonStep event old =
         ( _, Hover (Just i) ) ->
             ( Nothing, Inside i )
 
-        ( Inside _, Hover _ ) ->
+        ( _, Hover _ ) ->
             ( Nothing, Outside )
 
         ( Picked i _ (Just j), Mouse (EndAt _) ) ->
