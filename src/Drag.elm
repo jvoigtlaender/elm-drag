@@ -216,18 +216,6 @@ automaton inside =
 automatonStep : Input a -> State a -> ( Maybe ( a, Action ), State a )
 automatonStep event old =
     case ( old, event ) of
-        ( Outside, Hover (Just i) ) ->
-            ( Nothing, Inside i )
-
-        ( Inside _, Hover (Just i) ) ->
-            ( Nothing, Inside i )
-
-        ( Inside _, Hover _ ) ->
-            ( Nothing, Outside )
-
-        ( Inside i, Mouse (StartAt from) ) ->
-            ( Just ( i, Lift ), Picked i from Nothing )
-
         ( Picked i from mj, Mouse (MoveFromTo _ to) ) ->
             let
                 ( x, y ) = from
@@ -244,6 +232,15 @@ automatonStep event old =
 
         ( Picked i from _, Hover mj ) ->
             ( Nothing, Picked i from mj )
+
+        ( _, Hover (Just i) ) ->
+            ( Nothing, Inside i )
+
+        ( Inside _, Hover _ ) ->
+            ( Nothing, Outside )
+
+        ( Inside i, Mouse (StartAt from) ) ->
+            ( Just ( i, Lift ), Picked i from Nothing )
 
         _ ->
             ( Nothing, old )
