@@ -224,12 +224,6 @@ automatonStep event old =
             in
                 ( Just ( i, MoveBy ( x' - x, y' - y ) ), Picked i to mj )
 
-        ( Picked i _ (Just j), Mouse (EndAt _) ) ->
-            ( Just ( i, Release ), Inside j )
-
-        ( Picked i _ _, Mouse (EndAt _) ) ->
-            ( Just ( i, Release ), Inside i )
-
         ( Picked i from _, Hover mj ) ->
             ( Nothing, Picked i from mj )
 
@@ -238,6 +232,12 @@ automatonStep event old =
 
         ( Inside _, Hover _ ) ->
             ( Nothing, Outside )
+
+        ( Picked i _ (Just j), Mouse (EndAt _) ) ->
+            ( Just ( i, Release ), Inside j )
+
+        ( Picked i _ _, Mouse (EndAt _) ) ->
+            ( Just ( i, Release ), Inside i )
 
         ( Inside i, Mouse (StartAt from) ) ->
             ( Just ( i, Lift ), Picked i from Nothing )
