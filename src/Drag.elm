@@ -219,8 +219,11 @@ automatonStep event old =
         ( Outside, Hover (Just i) ) ->
             ( Nothing, Inside i )
 
-        ( Inside _, Hover mi ) ->
-            ( Nothing, withDefault Outside (Maybe.map Inside mi) )
+        ( Inside _, Hover (Just i) ) ->
+            ( Nothing, Inside i )
+
+        ( Inside _, Hover _ ) ->
+            ( Nothing, Outside )
 
         ( Inside i, Mouse (StartAt from) ) ->
             ( Just ( i, Lift ), Picked i from Nothing )
@@ -233,8 +236,11 @@ automatonStep event old =
             in
                 ( Just ( i, MoveBy ( x' - x, y' - y ) ), Picked i to mj )
 
-        ( Picked i _ mj, Mouse (EndAt _) ) ->
-            ( Just ( i, Release ), Inside (withDefault i mj) )
+        ( Picked i _ (Just j), Mouse (EndAt _) ) ->
+            ( Just ( i, Release ), Inside j )
+
+        ( Picked i _ _, Mouse (EndAt _) ) ->
+            ( Just ( i, Release ), Inside i )
 
         ( Picked i from _, Hover mj ) ->
             ( Nothing, Picked i from mj )
