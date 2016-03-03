@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+- '4.1'
+script: bash ./deploy-examples.sh
+env:
+  global:
+  - "-GH_REF": github.com/jvoigtlaender/elm-drag
+  - secure: NlaLrpKXsD1YIeHC/hA/Pnty28FfSgfQ0qzN2pkBjJ4kYxh2AjUhcoN95vSlJi7yYC9uR/YE07/6OWmL0N6goYyV+gHmmhix0LoU48K0v1QqEfc2Q3pThzBRaONt5QAa/ZzedrkYtVME6BZhvH5YCgpDWoKcUv8jyktpyCuKZh4ugqX6wwothVe+7RAaUL3KhKwdDzIO+/Le5Qj0Q9OsyvUp8LEZQtAIU12GP9kjwhRSKyW5bvp6jmKlgxgxkZto1QGKnaEN5fAOdAzCld8jr5TqtJiY0qljrJxRFguRQFx2pD+bo4FaFKoz8kOqoaMjUYVfpanrNj1We/yvJ5XVd7g/8b6ylrrczJLwvKdBvcygz3jO7MjhvZz6g4J2V4GAMzRLYeyHx7V6ow5rltilnWcwcZIJu+QYodnZL9+yHsg/mNprBoOydaNwLpsVszv9rUOOI7Vni+o1GKg5lDlymB36HsDxN8dNid4GUOWJYGKX00rtYTm9J7ZZcO177Crpzw14Rrkat0V/NRZigMyKwDsDWekog306Fk5f9Bv861QdW45jHeKtJ9mTDCikXod/795LIBRyXx/dR/cZvNpbDV5+kFKKKkHlXSbRsCc62JziDN45dh0JCEvcRyZSgZM+NmNA0kT29vpDP9iWydkcM99rlb66VDza6scaVwgd6oA=
