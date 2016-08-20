@@ -1,6 +1,6 @@
 rm -rf out || exit 0;
 
-npm install -g elm@0.16.0
+npm install -g elm@0.16
 
 elm-package install --yes
 elm-package install evancz/elm-html --yes
@@ -21,4 +21,4 @@ git config user.name "Travis CI"
 git config user.email "jvoigtlaender@users.noreply.github.com"
 git add .
 git commit -m "Travis deploy examples to gh-pages"
-git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:gh-pages >/dev/null 2>&1
+git push --force --quiet "https://$GH_TOKEN@github.com/$TRAVIS_REPO_SLUG" master:gh-pages >/dev/null 2>&1
