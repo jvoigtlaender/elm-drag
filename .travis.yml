@@ -1,6 +1,10 @@
 language: node_js
-node_js:
-- '4.1'
+install:
+- npm install -g elm@0.16
+cache:
+  directories:
+  - elm-stuff/packages
+  - elm-stuff/build-artifacts
 script: bash ./deploy-examples.sh
 env:
   global:

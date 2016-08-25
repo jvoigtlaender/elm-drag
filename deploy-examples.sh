@@ -1,7 +1,5 @@
 rm -rf out || exit 0;
 
-npm install -g elm@0.16
-
 elm-package install --yes
 elm-package install evancz/elm-html --yes
 elm-package install evancz/elm-effects --yes
