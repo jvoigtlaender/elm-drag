@@ -4,14 +4,14 @@ elm-package install --yes
 elm-package install evancz/elm-html --yes
 elm-package install evancz/elm-effects --yes
 elm-package install evancz/start-app --yes
-libsysconfcpus/bin/sysconfcpus -n $CPUNUM elm-make --yes
+sysconfcpus/bin/sysconfcpus -n $CPUNUM elm-make --yes
 
 mkdir out
-libsysconfcpus/bin/sysconfcpus -n $CPUNUM elm-make Example1.elm --output out/Example1.html --yes
-libsysconfcpus/bin/sysconfcpus -n $CPUNUM elm-make Example2.elm --output out/Example2.html --yes
-libsysconfcpus/bin/sysconfcpus -n $CPUNUM elm-make Example3.elm --output out/Example3.html --yes
-libsysconfcpus/bin/sysconfcpus -n $CPUNUM elm-make Example3b.elm --output out/Example3b.html --yes
-libsysconfcpus/bin/sysconfcpus -n $CPUNUM elm-make Example4.elm --output out/Example4.html --yes
+sysconfcpus/bin/sysconfcpus -n $CPUNUM elm-make Example1.elm --output out/Example1.html --yes
+sysconfcpus/bin/sysconfcpus -n $CPUNUM elm-make Example2.elm --output out/Example2.html --yes
+sysconfcpus/bin/sysconfcpus -n $CPUNUM elm-make Example3.elm --output out/Example3.html --yes
+sysconfcpus/bin/sysconfcpus -n $CPUNUM elm-make Example3b.elm --output out/Example3b.html --yes
+sysconfcpus/bin/sysconfcpus -n $CPUNUM elm-make Example4.elm --output out/Example4.html --yes
 cd out
 
 git init
